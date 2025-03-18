@@ -2,6 +2,7 @@ package br.com.produtos.crudprodutos.produtos.controle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import br.com.produtos.crudprodutos.produtos.modelo.RespostaModelo;
 import br.com.produtos.crudprodutos.produtos.servico.ProductService;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class ProductController {
 
   @Autowired

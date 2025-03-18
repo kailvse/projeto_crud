@@ -22,17 +22,20 @@ public class ProductService {
         return pr.findAll();
     }
 
-    //Cadastrar produtos
-    public ResponseEntity<?> cadastrar(ProdutoModelo pm){
-        System.out.println("aqui");
+    public ResponseEntity <?> cadastrarAlterar(ProdutoModelo pm, String acao){
         if(pm.getName().equals("")){
             rm.setResposta("O nome do produto é obrigatório!");
-            return new ResponseEntity<RespostaModelo>(rm,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
         }else if(pm.getMarca().equals("")){
-            rm.setResposta("O nome da marca do produto é obrigatório!");
+            rm.setResposta("A marca do produto é obrigatório!");
             return new ResponseEntity<RespostaModelo>(rm,HttpStatus.BAD_REQUEST);
         }else{
-            return new ResponseEntity<ProdutoModelo>(pr.save(pm),HttpStatus.CREATED);
+            if(acao.equals("cadastrar")){
+                return new ResponseEntity<ProdutoModelo>(pr.save(pm), HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<ProdutoModelo>(pr.save(pm), HttpStatus.OK);
+                
+            }
         }
     }
 

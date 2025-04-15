@@ -1,29 +1,29 @@
-package br.com.produtos.crudprodutos.produtos.servico;
+package br.com.anm.projeto_crud.produtos.servico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.produtos.crudprodutos.produtos.repositorio.ProductRepository;
-import br.com.produtos.crudprodutos.produtos.modelo.ProdutoModelo;
-import br.com.produtos.crudprodutos.produtos.modelo.RespostaModelo;
+import br.com.anm.projeto_crud.produtos.modelo.ProdutoModelo;
+import br.com.anm.projeto_crud.produtos.modelo.RespostaModelo;
+import br.com.anm.projeto_crud.produtos.repositorio.ProdutoRepositorio;
 
 @Service
-public class ProductService {
-
-    @Autowired
-    private ProductRepository pr;
+public class ProdutoServico {
     
     @Autowired
+    private ProdutoRepositorio pr;
+
+    @Autowired
     private RespostaModelo rm;
-    //Listar Produto
+
     public Iterable<ProdutoModelo> listar(){
         return pr.findAll();
     }
 
     public ResponseEntity <?> cadastrarAlterar(ProdutoModelo pm, String acao){
-        if(pm.getName().equals("")){
+        if(pm.getNome().equals("")){
             rm.setResposta("O nome do produto é obrigatório!");
             return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
         }else if(pm.getMarca().equals("")){
@@ -38,12 +38,11 @@ public class ProductService {
             }
         }
     }
-    
+
     public ResponseEntity<RespostaModelo> remover(long codigo){
-    pr.deleteById(codigo);
-    rm.setResposta("O produto foi removido com sucesso!");
-    return new ResponseEntity<RespostaModelo>(rm, HttpStatus.OK);
+        pr.deleteById(codigo);
+        rm.setResposta("O produto foi removido com sucesso!");
+        return new ResponseEntity<RespostaModelo>(rm, HttpStatus.OK);
     }
+
 }
-
-

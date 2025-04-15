@@ -8,14 +8,14 @@ function Tabela(){
                     <th>Marca</th>
                     <th>Selecionar</th>
                 </tr>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
             </thead>
         </table>
     )

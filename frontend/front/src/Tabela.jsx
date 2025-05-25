@@ -1,32 +1,32 @@
-// Proposta de atualização do componente Tabela.jsx (CORRIGIDO v2 - Removidas aspas escapadas)
+// Tabela.jsx final - Adicionada coluna ID entre Marca e Selecionar
 
-function Tabela({ vetor, selecionar, produtoSelecionado, chaveProduto = "codigo" }) { // Usa "codigo" por padrão
+function Tabela({ vetor, selecionar, produtoSelecionado, chaveProduto = "codigo" }) {
     return (
-        <table className="table"> {/* Usando aspas duplas padrão */}
+        <table className="table">
             <thead>
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
                     <th>Marca</th>
+                    <th>ID</th> {/* Coluna ID adicionada aqui */} 
                     <th>Selecionar</th>
                 </tr>
             </thead>
             <tbody>
                 {
                     vetor.map((obj, indice) => (
-                        // Usa o campo definido em chaveProduto (default "codigo") como key
-                        // Mantém o destaque visual baseado no índice selecionado
                         <tr 
                             key={obj[chaveProduto] !== undefined ? obj[chaveProduto] : indice} 
-                            className={produtoSelecionado === indice ? "bg-info" : ""} /* Usando aspas duplas padrão */
+                            className={produtoSelecionado === indice ? "bg-info" : ""}
                         >
                             <td>{indice + 1}</td>
                             <td>{obj.nome}</td>
                             <td>{obj.marca}</td>
+                            <td>{obj.id !== null && obj.id !== undefined ? obj.id : "N/A"}</td> {/* Exibe o ID numérico */} 
                             <td>
                                 <button 
-                                    className="btn btn-success" /* Usando aspas duplas padrão */
-                                    onClick={() => selecionar(indice)} // A seleção ainda usa o índice para pegar o objeto do vetor
+                                    className="btn btn-success"
+                                    onClick={() => selecionar(indice)}
                                     title="Selecionar este produto para edição"
                                 >
                                     Selecionar

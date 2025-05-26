@@ -30,11 +30,12 @@ form {
   text-align: center;
   background-color: rgba(27, 42, 71, 0.85); /* Dark Blue/Petrol tone */
   border: none; 
-  padding: 30px 40px; /* Adjusted padding */
+  padding: 30px 40px; /* Padding restaurado */
   border-radius: 12px; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
   position: relative; 
   z-index: 0; 
+  margin-right: 50px; /* Margem direita adicionada para alinhar */ 
   color: #f0f0f0; 
 }
 
@@ -49,7 +50,7 @@ form button,
 form label {
   position: relative; 
   z-index: 1;
-  color: #333; 
+  /* color: #333; /* Default color removed, handled by specific elements */
 }
 
 form label {
@@ -60,21 +61,18 @@ form input {
   margin-bottom: 15px; 
 }
 
-form input[type="button"] {
-  margin-right: 10px;
-  margin-top: 10px; 
-}
-
+/* Specific form input styling */
 form input[type="text"],
 form input[type="number"] {
   width: calc(100% - 22px); 
   padding: 12px 10px; 
   border-radius: 6px;
-  border: 1px solid #555; 
+  border: 1px solid #ccc; /* Lighter border */
   margin-bottom: 15px;
   font-size: 1em;
   background-color: #fff; 
   color: #333; 
+  font-family: 'Poppins', sans-serif; /* Ensure Poppins */
 }
 
 /* Styles for the Products Section */
@@ -90,24 +88,53 @@ form input[type="number"] {
   color: #333;
 }
 
-/* Button styles */
-.btn-success, .btn-warning, .btn-danger, .btn-secondary {
+/* === New Button Styles - Refined for Professional Look === */
+.btn-primary, .btn-success, .btn-warning, .btn-danger, .btn-secondary,
+form input[type="button"] /* Ensure form buttons are also styled */
+{
   color: #fff; 
   border: none;
-  padding: 8px 15px; 
-  border-radius: 6px;
+  padding: 10px 20px; /* Adjusted padding */
+  border-radius: 8px; /* Softer radius */
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease; /* Smoother transitions */
   margin-right: 10px;
+  margin-top: 10px; /* Keep margin-top from form styles */
+  font-weight: 500; /* Medium weight for Poppins */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  display: inline-block; /* Ensure proper layout */
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  font-size: 0.95em; /* Slightly adjust font size */
+  font-family: 'Poppins', sans-serif; /* Ensure Poppins */
 }
 
-.btn-success { background-color: #28a745; }
-.btn-warning { background-color: #ffc107; color: #212529; }
-.btn-danger { background-color: #dc3545; }
-.btn-secondary { background-color: #6c757d; }
+/* Specific Button Colors */
+.btn-primary { background-color: #3A7CA5; color: #fff; } /* New primary blue */
+.btn-success { background-color: #28a745; color: #fff; } /* Keep green */
+.btn-warning { background-color: #ffc107; color: #212529; } /* Keep yellow, ensure text contrast */
+.btn-danger { background-color: #dc3545; color: #fff; } /* Keep red */
+.btn-secondary { background-color: #6c757d; color: #fff; } /* Keep grey */
 
+/* Hover & Active States */
+.btn-primary:hover, .btn-success:hover, .btn-warning:hover, .btn-danger:hover, .btn-secondary:hover,
+form input[type="button"]:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  transform: translateY(-1px); /* Slight lift effect */
+}
+
+.btn-primary:hover { background-color: #316a8c; } /* Darker blue */
 .btn-success:hover { background-color: #218838; }
 .btn-warning:hover { background-color: #e0a800; }
 .btn-danger:hover { background-color: #c82333; }
 .btn-secondary:hover { background-color: #5a6268; }
+
+.btn-primary:active, .btn-success:active, .btn-warning:active, .btn-danger:active, .btn-secondary:active,
+form input[type="button"]:active {
+  transform: translateY(0px); /* Remove lift effect on click */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Reset shadow */
+}
+/* === End of New Button Styles === */
+
 

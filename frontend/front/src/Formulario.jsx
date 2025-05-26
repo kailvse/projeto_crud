@@ -1,4 +1,4 @@
-// Formulario.jsx - Atualizado com campos Preço e URL da Imagem
+// Formulario.jsx - Adicionado campo Quantidade
 
 function Formulario({ botao, eventoTeclado, cadastrar, obj, cancelar, remover, alterar }) {
     return (
@@ -6,7 +6,7 @@ function Formulario({ botao, eventoTeclado, cadastrar, obj, cancelar, remover, a
             {/* Campo Nome */}
             <input 
                 type="text" 
-                value={obj.nome || ""} // Garante que o valor seja sempre string
+                value={obj.nome || ""} 
                 onChange={eventoTeclado} 
                 name="nome" 
                 placeholder="Nome" 
@@ -16,43 +16,55 @@ function Formulario({ botao, eventoTeclado, cadastrar, obj, cancelar, remover, a
             {/* Campo Marca */}
             <input 
                 type="text" 
-                value={obj.marca || ""} // Garante que o valor seja sempre string
+                value={obj.marca || ""} 
                 onChange={eventoTeclado} 
                 name="marca" 
                 placeholder="Marca" 
                 className="form-control" 
             />
 
-            {/* Campo Preço - Novo */}
+            {/* Campo Preço */}
             <input 
-                type="number" // Usar type="number" para preço
-                value={obj.preco !== null && obj.preco !== undefined ? obj.preco : ""} // Exibe preço se existir
+                type="number" 
+                value={obj.preco !== null && obj.preco !== undefined ? obj.preco : ""} 
                 onChange={eventoTeclado} 
                 name="preco" 
                 placeholder="Preço (ex: 19.99)" 
                 className="form-control" 
-                step="0.01" // Permite decimais
-                min="0" // Preço não pode ser negativo
+                step="0.01" 
+                min="0" 
             />
 
-            {/* Campo URL da Imagem - Novo */}
+            {/* Campo Quantidade (NOVO) */}
+            <input 
+                type="number" 
+                value={obj.quantidade !== null && obj.quantidade !== undefined ? obj.quantidade : ""} // Exibe quantidade se existir
+                onChange={eventoTeclado} 
+                name="quantidade" 
+                placeholder="Quantidade" 
+                className="form-control" 
+                step="1" // Apenas inteiros
+                min="0" // Quantidade não pode ser negativa
+            />
+
+            {/* Campo URL da Imagem */}
             <input 
                 type="text" 
-                value={obj.imageUrl || ""} // Garante que o valor seja sempre string
+                value={obj.imageUrl || ""} 
                 onChange={eventoTeclado} 
                 name="imageUrl" 
                 placeholder="URL da Imagem (ex: https://.../imagem.jpg)" 
                 className="form-control" 
             />
 
-            {/* Campo ID (Somente Leitura) - Mantido */}
+            {/* Campo ID (Somente Leitura) */}
             <input 
                 type="text" 
-                value={obj.id !== null && obj.id !== undefined ? obj.id : ""} // Exibe ID se existir, senão vazio
+                value={obj.id !== null && obj.id !== undefined ? obj.id : ""} 
                 name="id" 
                 placeholder="ID (Gerado automaticamente)" 
                 className="form-control" 
-                readOnly // Torna o campo somente leitura
+                readOnly 
             />
 
             {/* Botões */}

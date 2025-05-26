@@ -1,29 +1,31 @@
-// App.jsx - Atualizado com divisão de seções e scroll suave
+// App.jsx - Integrado campo Quantidade no fluxo
 
-import { useEffect, useState, useRef } from 'react'; // Importar useRef
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 import './CardProduto.css';
 import Formulario from './Formulario';
 import CardProduto from './CardProduto';
 
 function App() {
-  // Estados (sem alterações)
+  // Estados
   const [btnCadastrar, setBtnCadastrar] = useState(true);
   const [produtos, setProdutos] = useState([]);
+  // Adicionar quantidade ao estado inicial
   const [objProduto, setObjProduto] = useState({ 
     codigo: null, 
     nome: '', 
     marca: '', 
     preco: '',
+    quantidade: '', // Adicionado quantidade
     imageUrl: '',
     id: null
   }); 
   const [produtoSelecionadoIndice, setProdutoSelecionadoIndice] = useState(null);
 
-  // Ref para a seção do formulário (NOVO)
+  // Ref para scroll
   const formSectionRef = useRef(null);
 
-  // useEffect (sem alterações)
+  // useEffect para carregar produtos
   useEffect(() => {
     fetch("http://localhost:8080/listar")
       .then(retorno => retorno.json())
@@ -31,27 +33,29 @@ function App() {
       .catch(erro => console.error("Erro ao carregar produtos:", erro));
   }, []);
 
-  // aoDigitar (sem alterações)
+  // aoDigitar (sem alterações, já lida com qualquer campo pelo name)
   const aoDigitar = (e) => {
     const { name, value } = e.target;
     setObjProduto({...objProduto, [name]: value });
   }
 
-  // cadastrar (sem alterações)
+  // cadastrar - Incluir quantidade
   const cadastrar = () => {
     const produtoParaCadastrar = { 
       nome: objProduto.nome,
       marca: objProduto.marca,
       preco: objProduto.preco === '' ? null : parseFloat(objProduto.preco),
+      quantidade: objProduto.quantidade === '' ? null : parseInt(objProduto.quantidade, 10), // Incluir quantidade (inteiro)
       imageUrl: objProduto.imageUrl || null
     };
 
-    if (!produtoParaCadastrar.nome || !produtoParaCadastrar.marca || produtoParaCadastrar.preco === null) {
-      alert("Por favor, preencha Nome, Marca e Preço.");
+    // Validação frontend (incluindo quantidade)
+    if (!produtoParaCadastrar.nome || !produtoParaCadastrar.marca || produtoParaCadastrar.preco === null || produtoParaCadastrar.quantidade === null) {
+      alert("Por favor, preencha Nome, Marca, Preço e Quantidade.");
       return;
     }
-    if (produtoParaCadastrar.preco < 0) {
-      alert("O preço não pode ser negativo.");
+    if (produtoParaCadastrar.preco < 0 || produtoParaCadastrar.quantidade < 0) {
+      alert("Preço e Quantidade não podem ser negativos.");
       return;
     }
 
@@ -80,23 +84,24 @@ function App() {
     });
   }
 
-  // selecionarProduto - Adicionar scroll (ATUALIZADO)
+  // selecionarProduto - Incluir quantidade
   const selecionarProduto = (indice) => {
     setProdutoSelecionadoIndice(indice);
     const produtoSel = produtos[indice];
+    // Incluir quantidade ao definir o objeto para o formulário
     setObjProduto({
         ...produtoSel,
-        preco: produtoSel.preco !== null && produtoSel.preco !== undefined ? produtoSel.preco.toString() : ''
+        preco: produtoSel.preco !== null && produtoSel.preco !== undefined ? produtoSel.preco.toString() : '',
+        quantidade: produtoSel.quantidade !== null && produtoSel.quantidade !== undefined ? produtoSel.quantidade.toString() : '' // Converter quantidade para string
     }); 
     setBtnCadastrar(false);
 
-    // Scroll suave para a seção do formulário (NOVO)
     if (formSectionRef.current) {
       formSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
-  // alterar (sem alterações)
+  // alterar - Incluir quantidade
   const alterar = () => {
     if (!objProduto || objProduto.codigo === null || objProduto.codigo === undefined) {
         alert("Erro ao alterar: Selecione um produto válido.");
@@ -108,16 +113,18 @@ function App() {
       nome: objProduto.nome,
       marca: objProduto.marca,
       preco: objProduto.preco === '' ? null : parseFloat(objProduto.preco),
+      quantidade: objProduto.quantidade === '' ? null : parseInt(objProduto.quantidade, 10), // Incluir quantidade
       imageUrl: objProduto.imageUrl || null,
       id: objProduto.id
     };
 
-    if (!produtoParaAlterar.nome || !produtoParaAlterar.marca || produtoParaAlterar.preco === null) {
-      alert("Por favor, preencha Nome, Marca e Preço.");
+    // Validação frontend (incluindo quantidade)
+    if (!produtoParaAlterar.nome || !produtoParaAlterar.marca || produtoParaAlterar.preco === null || produtoParaAlterar.quantidade === null) {
+      alert("Por favor, preencha Nome, Marca, Preço e Quantidade.");
       return;
     }
-     if (produtoParaAlterar.preco < 0) {
-      alert("O preço não pode ser negativo.");
+    if (produtoParaAlterar.preco < 0 || produtoParaAlterar.quantidade < 0) {
+      alert("Preço e Quantidade não podem ser negativos.");
       return;
     }
 
@@ -155,7 +162,8 @@ function App() {
 
   // remover (sem alterações)
   const remover = () => {
-    if (!objProduto || objProduto.codigo === null || objProduto.codigo === undefined) {
+    // ... (lógica existente) ...
+     if (!objProduto || objProduto.codigo === null || objProduto.codigo === undefined) {
         alert("Erro ao remover: Selecione um produto válido.");
         return;
     }
@@ -188,26 +196,24 @@ function App() {
         console.error("Erro ao remover:", erro);
         alert(`Erro ao remover: ${erro.message}`);
     });
-  }
+  };
 
   // cancelar (sem alterações)
   const cancelar = () => {
     limparFormulario();
   }
 
-  // limparFormulario (sem alterações)
+  // limparFormulario - Incluir quantidade
   const limparFormulario = () => {
-    setObjProduto({ codigo: null, nome: '', marca: '', preco: '', imageUrl: '', id: null }); 
+    setObjProduto({ codigo: null, nome: '', marca: '', preco: '', quantidade: '', imageUrl: '', id: null }); // Resetar quantidade
     setBtnCadastrar(true);
     setProdutoSelecionadoIndice(null);
   }
 
-  // Estrutura JSX com divisão de seções (ATUALIZADO)
+  // Estrutura JSX (sem alterações na estrutura, apenas passa o objProduto atualizado)
   return (    
-    <div className="app-container"> {/* Container principal */}
-      {/* Seção do Formulário */}
+    <div className="app-container">
       <section id="secao-formulario" ref={formSectionRef} className="secao-formulario-estilo">
-        {/* Você pode adicionar um título ou outros elementos aqui se desejar */}
         <Formulario 
           botao={btnCadastrar} 
           eventoTeclado={aoDigitar} 
@@ -219,9 +225,8 @@ function App() {
         />
       </section>
       
-      {/* Seção dos Produtos */}
       <section id="secao-produtos" className="secao-produtos-estilo">
-        <h2>Produtos Cadastrados</h2> {/* Título para a seção de produtos */}
+        <h2>Produtos Cadastrados</h2>
         <div className="container-cards">
           {produtos.length > 0 ? (
             produtos.map((produto, indice) => (

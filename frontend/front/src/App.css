@@ -1,4 +1,4 @@
-/* App.css - Final adjustments for image aspect and form size */
+/* App.css - Using new background and resizing form */
 
 /* Styles for the main app container */
 .app-container {
@@ -9,29 +9,28 @@
 
 /* Styles for the Form Section */
 .secao-formulario-estilo {
-  padding: 40px 20px;
-  background-image: url("/logonova.jpg"); 
+  padding: 40px 20px; /* Padding remains */
+  background-image: url("/logonovaesquerda.jpg"); /* New background image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
+  display: flex; /* Ensure this is flex */
+  justify-content: flex-end; /* Align form to the right */
   align-items: center;
-  min-height: 80vh; /* Increased min-height significantly for 16:9 feel */
-  /* Alternative for strict 16:9 (might need max-height):
-     min-height: calc(100vw * 9 / 16);
-     max-height: 85vh; 
-  */
+  min-height: 80vh; 
 }
 
-/* Styles for the Form itself (adjusted width) */
+/* Styles for the Form itself (adjusted width for new background) */
 form {
-  max-width: 400px; /* Further decreased max-width */
-  width: 90%; 
+  max-width: 600px; /* Increased max-width to fill space next to left logo */
+  width: 60%; /* Use percentage width to adapt better */
+  /* margin-left: auto; /* REMOVED auto margin */
+  /* margin-right: 0; /* REMOVED margin override */
+  /* margin-left: 0; /* REMOVED margin override */
   text-align: center;
   background-color: rgba(27, 42, 71, 0.85); /* Dark Blue/Petrol tone */
   border: none; 
-  padding: 25px 25px; /* Adjusted padding for even narrower form */
+  padding: 30px 40px; /* Adjusted padding */
   border-radius: 12px; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
   position: relative; 

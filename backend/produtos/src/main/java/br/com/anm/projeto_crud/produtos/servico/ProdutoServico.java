@@ -1,4 +1,4 @@
-// ProdutoServico.java - Atualizado para incluir preco e imageUrl
+// ProdutoServico.java - Adicionada validação e lógica para quantidade
 
 package br.com.anm.projeto_crud.produtos.servico;
 
@@ -35,63 +35,56 @@ public class ProdutoServico {
     // Método para gerar um ID aleatório único de 5 dígitos
     private Integer gerarIdAleatorioUnico() {
         int tentativas = 0;
-        int maxTentativas = 100; // Limite para evitar loop infinito
+        int maxTentativas = 100; 
         while (tentativas < maxTentativas) {
-            // Gera um número entre 10000 e 99999
             Integer novoId = 10000 + random.nextInt(90000);
-            // Verifica se o ID já existe no banco usando o método do repositório
-            // Assumindo que existsById agora verifica pelo campo 'id' (Integer)
-            // Se existsById verifica pelo 'codigo' (Long), precisaremos de um método customizado no repositório
-            // como existsByIdAleatorio(Integer id)
-            // Por simplicidade, vamos assumir que pr.existsById(novoId) funciona ou seria adaptado.
-            // TODO: Verificar/Adaptar método de checagem de ID aleatório no repositório se necessário.
-            if (!pr.existsById(novoId.longValue())) { // Convertendo para Long para compatibilidade com JpaRepository padrão
-                                                  // Idealmente, criar um método findByIdAleatorio no repo.
-                return novoId; // Retorna o ID único encontrado
+            // TODO: Idealmente, criar um método findByIdAleatorio no repo.
+            if (!pr.existsById(novoId.longValue())) { 
+                return novoId;
             }
             tentativas++;
         }
-        // Se não encontrar um ID único, lança a exceção para que @Transactional faça o rollback
         throw new RuntimeException("Não foi possível gerar um ID aleatório único após " + maxTentativas + " tentativas.");
     }
 
     // Método unificado para cadastrar ou alterar produtos
-    @Transactional // A anotação cuidará do rollback se gerarIdAleatorioUnico lançar exceção
+    @Transactional
     public ResponseEntity <?> cadastrarAlterar(ProdutoModelo pm, String acao){
-        // Validação dos campos Nome e Marca
+        // Validações existentes
         if(pm.getNome() == null || pm.getNome().trim().isEmpty()){
             rm.setResposta("O nome do produto é obrigatório!");
             return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
         } else if(pm.getMarca() == null || pm.getMarca().trim().isEmpty()){
             rm.setResposta("A marca do produto é obrigatória!");
             return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
-        } 
-        // Validação do Preço (não pode ser nulo e deve ser >= 0)
-        else if (pm.getPreco() == null) {
+        } else if (pm.getPreco() == null) {
              rm.setResposta("O preço do produto é obrigatório!");
             return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
         } else if (pm.getPreco().compareTo(BigDecimal.ZERO) < 0) {
              rm.setResposta("O preço do produto não pode ser negativo!");
             return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
-        }
-        // Validação da URL da Imagem (opcional, mas se fornecida, não pode ser vazia)
-        else if (pm.getImageUrl() != null && pm.getImageUrl().trim().isEmpty()) {
+        } else if (pm.getImageUrl() != null && pm.getImageUrl().trim().isEmpty()) {
              rm.setResposta("A URL da imagem não pode ser vazia se fornecida.");
+            return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
+        }
+        // Nova validação para Quantidade
+        else if (pm.getQuantidade() == null) {
+             rm.setResposta("A quantidade do produto é obrigatória!");
+            return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
+        } else if (pm.getQuantidade() < 0) {
+             rm.setResposta("A quantidade do produto não pode ser negativa!");
             return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
         }
          else {
             if(acao.equals("cadastrar")){
-                // 1. Gera um ID aleatório único de 5 dígitos.
                 Integer idAleatorio = gerarIdAleatorioUnico();
                 pm.setId(idAleatorio);
-                // 2. Limpa o código (chave primária da tabela - será gerado pelo BD).
                 pm.setCodigo(null);
-                // 3. Salva o novo produto (incluindo preco e imageUrl).
+                // Salva o novo produto (incluindo quantidade)
                 ProdutoModelo novoProduto = pr.save(pm);
                 return new ResponseEntity<ProdutoModelo>(novoProduto, HttpStatus.CREATED);
                 
             } else { // Ação "alterar"
-                // Validação do código para alteração
                 if (pm.getCodigo() == null) {
                     rm.setResposta("Código do produto inválido para alteração.");
                     return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
@@ -100,11 +93,12 @@ public class ProdutoServico {
 
                 if (produtoExistenteOpt.isPresent()) {
                     ProdutoModelo produtoExistente = produtoExistenteOpt.get();
-                    // Atualiza nome, marca, preco e imageUrl (ID aleatório é imutável)
+                    // Atualiza campos (incluindo quantidade)
                     produtoExistente.setNome(pm.getNome());
                     produtoExistente.setMarca(pm.getMarca());
                     produtoExistente.setPreco(pm.getPreco());
                     produtoExistente.setImageUrl(pm.getImageUrl());
+                    produtoExistente.setQuantidade(pm.getQuantidade()); // Atualiza quantidade
                     
                     ProdutoModelo produtoAtualizado = pr.save(produtoExistente);
                     return new ResponseEntity<ProdutoModelo>(produtoAtualizado, HttpStatus.OK);
@@ -119,7 +113,6 @@ public class ProdutoServico {
     // Remove um produto pelo código (Long)
     @Transactional
     public ResponseEntity<RespostaModelo> remover(long codigo){
-        // Usar existsById do JpaRepository que verifica pela chave primária (@Id), que é 'codigo'
         if (pr.existsById(codigo)) { 
             pr.deleteById(codigo);
             rm.setResposta("O produto foi removido com sucesso!");

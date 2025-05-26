@@ -1,4 +1,4 @@
-// ProdutoModelo.java final - ID como Integer aleatório de 5 dígitos, com preco e imageUrl
+// ProdutoModelo.java - Adicionado campo quantidade
 
 package br.com.anm.projeto_crud.produtos.modelo;
 
@@ -19,29 +19,25 @@ import java.math.BigDecimal;
 @Table(name = "produtos")
 public class ProdutoModelo {
     
-    // Mantém o campo "codigo" como ID primário autoincrementado da tabela
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    // Campo "id" como Integer (5 dígitos), gerado manualmente no serviço
-    // Mapeado para a coluna "id_aleatorio" no banco.
     @Column(name = "id_aleatorio", updatable = false, nullable = false, unique = true)
-    private Integer id; // Tipo do campo agora é Integer
+    private Integer id;
 
     private String nome;
     private String marca;
 
-    // Novo campo para preço
-    @Column(precision = 10, scale = 2) // Define precisão e escala para valores monetários
+    @Column(precision = 10, scale = 2)
     private BigDecimal preco;
 
-    // Novo campo para URL da imagem
-    @Column(length = 2048) // Define um tamanho razoável para URL
+    @Column(length = 2048)
     private String imageUrl;
 
-    // Lombok cuidará dos getters e setters
-    // O ID aleatório será gerado e definido no ProdutoServico antes de persistir.
-    // O "updatable = false" garante que ele não será alterado em updates.
+    // Novo campo para quantidade
+    @Column(nullable = false) // Quantidade não pode ser nula
+    private Integer quantidade;
+
 }
 

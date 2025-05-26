@@ -1,0 +1,83 @@
+/* CardProduto.css - Estilos para os cartões de produto */
+
+.container-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaçamento entre os cartões */
+  justify-content: center; /* Centraliza os cartões no container */
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.card-produto {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+  width: 280px; /* Largura fixa para cada cartão */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-produto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-produto-imagem {
+  width: 100%;
+  height: 200px; /* Altura fixa para a imagem */
+  object-fit: cover; /* Cobre a área da imagem, cortando se necessário */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-produto-info {
+  padding: 15px;
+  text-align: left;
+  flex-grow: 1; /* Faz a área de info crescer para preencher o espaço */
+  display: flex;
+  flex-direction: column;
+}
+
+.card-produto-info h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.card-produto-info p {
+  margin: 5px 0;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.card-produto-info p strong {
+  color: #333;
+}
+
+.card-produto-info p small {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.btn-selecionar-card {
+  margin-top: auto; /* Empurra o botão para o final do card */
+  align-self: center; /* Centraliza o botão horizontalmente */
+  padding: 8px 15px;
+  width: 80%; /* Largura do botão */
+}
+
+/* Media query para telas menores (exemplo) */
+@media (max-width: 640px) {
+  .card-produto {
+    width: calc(90% - 20px); /* Ocupa quase toda a largura, com margem */
+  }
+  .container-cards {
+     padding: 10px;
+     gap: 15px;
+  }
+}
+

@@ -1,63 +1,114 @@
-form{
-  width: 600px;
-  margin: 30px auto;
-  text-align: center;
+/* App.css - Final adjustments for image aspect and form size */
 
-  background: #fff;
-  padding: 24px 32px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  margin-bottom: 32px;
+/* Styles for the main app container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-form input{
-  margin-bottom: 5px;
+
+/* Styles for the Form Section */
+.secao-formulario-estilo {
+  padding: 40px 20px;
+  background-image: url("/logonova.jpg"); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh; /* Increased min-height significantly for 16:9 feel */
+  /* Alternative for strict 16:9 (might need max-height):
+     min-height: calc(100vw * 9 / 16);
+     max-height: 85vh; 
+  */
 }
-form input[type="button"]{
-  margin-right: 5px;
+
+/* Styles for the Form itself (adjusted width) */
+form {
+  max-width: 400px; /* Further decreased max-width */
+  width: 90%; 
+  text-align: center;
+  background-color: rgba(27, 42, 71, 0.85); /* Dark Blue/Petrol tone */
+  border: none; 
+  padding: 25px 25px; /* Adjusted padding for even narrower form */
+  border-radius: 12px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+  position: relative; 
+  z-index: 0; 
+  color: #f0f0f0; 
 }
-form input[type="text"] {
-  width: 90%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-bottom: 12px;
+
+/* Style placeholders */
+form input::placeholder {
+  color: #bbb; 
+  opacity: 1; 
+}
+
+form input,
+form button,
+form label {
+  position: relative; 
+  z-index: 1;
+  color: #333; 
+}
+
+form label {
+    color: #f0f0f0; 
+}
+
+form input {
+  margin-bottom: 15px; 
+}
+
+form input[type="button"] {
+  margin-right: 10px;
+  margin-top: 10px; 
+}
+
+form input[type="text"],
+form input[type="number"] {
+  width: calc(100% - 22px); 
+  padding: 12px 10px; 
+  border-radius: 6px;
+  border: 1px solid #555; 
+  margin-bottom: 15px;
   font-size: 1em;
+  background-color: #fff; 
+  color: #333; 
 }
 
-.table {
-  width: 80%;
-  margin: 30px auto;
-  border-collapse: collapse;
-  font-size: 1.1em;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+/* Styles for the Products Section */
+.secao-produtos-estilo {
+  background-color: #ffffff; 
+  padding: 40px 20px; 
+  flex-grow: 1; 
 }
-.table th, .table td {
-  border: 1px solid #ddd;
-  padding: 10px 8px;
+
+.secao-produtos-estilo h2 {
   text-align: center;
-}
-.table thead {
-  background-color: #f4f4f4;
-}
-
-.table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  margin-bottom: 30px;
+  color: #333;
 }
 
-.table tr:hover {
-  background-color: #e0f7fa;
-}
-
-.btn-success {
-  background-color: #218838;
-  color: #fff;
+/* Button styles */
+.btn-success, .btn-warning, .btn-danger, .btn-secondary {
+  color: #fff; 
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 8px 15px; 
+  border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;
+  margin-right: 10px;
 }
 
-.btn-success:hover {
-  background-color: #155724;
-}
+.btn-success { background-color: #28a745; }
+.btn-warning { background-color: #ffc107; color: #212529; }
+.btn-danger { background-color: #dc3545; }
+.btn-secondary { background-color: #6c757d; }
+
+.btn-success:hover { background-color: #218838; }
+.btn-warning:hover { background-color: #e0a800; }
+.btn-danger:hover { background-color: #c82333; }
+.btn-secondary:hover { background-color: #5a6268; }
+

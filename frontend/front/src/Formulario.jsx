@@ -1,4 +1,4 @@
-// Formulario.jsx final - Adicionado campo ID somente leitura
+// Formulario.jsx - Atualizado com campos Preço e URL da Imagem
 
 function Formulario({ botao, eventoTeclado, cadastrar, obj, cancelar, remover, alterar }) {
     return (
@@ -23,7 +23,29 @@ function Formulario({ botao, eventoTeclado, cadastrar, obj, cancelar, remover, a
                 className="form-control" 
             />
 
-            {/* Campo ID (Somente Leitura) - Adicionado */}
+            {/* Campo Preço - Novo */}
+            <input 
+                type="number" // Usar type="number" para preço
+                value={obj.preco !== null && obj.preco !== undefined ? obj.preco : ""} // Exibe preço se existir
+                onChange={eventoTeclado} 
+                name="preco" 
+                placeholder="Preço (ex: 19.99)" 
+                className="form-control" 
+                step="0.01" // Permite decimais
+                min="0" // Preço não pode ser negativo
+            />
+
+            {/* Campo URL da Imagem - Novo */}
+            <input 
+                type="text" 
+                value={obj.imageUrl || ""} // Garante que o valor seja sempre string
+                onChange={eventoTeclado} 
+                name="imageUrl" 
+                placeholder="URL da Imagem (ex: https://.../imagem.jpg)" 
+                className="form-control" 
+            />
+
+            {/* Campo ID (Somente Leitura) - Mantido */}
             <input 
                 type="text" 
                 value={obj.id !== null && obj.id !== undefined ? obj.id : ""} // Exibe ID se existir, senão vazio
@@ -48,3 +70,4 @@ function Formulario({ botao, eventoTeclado, cadastrar, obj, cancelar, remover, a
 }
 
 export default Formulario;
+

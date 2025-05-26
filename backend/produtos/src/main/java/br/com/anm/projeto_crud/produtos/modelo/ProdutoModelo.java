@@ -1,4 +1,4 @@
-// ProdutoModelo.java final - ID como Integer aleatório de 5 dígitos
+// ProdutoModelo.java final - ID como Integer aleatório de 5 dígitos, com preco e imageUrl
 
 package br.com.anm.projeto_crud.produtos.modelo;
 
@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -29,6 +31,14 @@ public class ProdutoModelo {
 
     private String nome;
     private String marca;
+
+    // Novo campo para preço
+    @Column(precision = 10, scale = 2) // Define precisão e escala para valores monetários
+    private BigDecimal preco;
+
+    // Novo campo para URL da imagem
+    @Column(length = 2048) // Define um tamanho razoável para URL
+    private String imageUrl;
 
     // Lombok cuidará dos getters e setters
     // O ID aleatório será gerado e definido no ProdutoServico antes de persistir.
